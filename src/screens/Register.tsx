@@ -1,29 +1,32 @@
 import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  TouchableOpacity,
   Alert,
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 import logo from '../assets/logo.png';
 import {useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
-import {loginSchema} from '../utils/formSchema';
+import {registerSchema} from '../utils/formSchema';
 import RHFTextField from '../components/RHFTextField';
 
 interface formData {
+  name: string;
   email: string;
   password: string;
+  phone: string;
+  address: string;
 }
 
-const Login = () => {
+const Register = () => {
   const {
     control,
     handleSubmit,
     formState: {errors},
   } = useForm({
-    resolver: yupResolver(loginSchema),
+    resolver: yupResolver(registerSchema),
   });
 
   const onSubmit = (data: formData) => {
@@ -34,8 +37,14 @@ const Login = () => {
   return (
     <View style={styles.container}>
       <Image source={logo} style={styles.logo} />
-      <Text style={styles.headingText}>A Software Platform</Text>
+      <Text style={styles.headingText}>Register Here</Text>
 
+      <RHFTextField
+        control={control}
+        name="name"
+        placeholder="Name"
+        errors={errors}
+      />
       <RHFTextField
         control={control}
         name="email"
@@ -51,12 +60,24 @@ const Login = () => {
           secureTextEntry: true,
         }}
       />
+      <RHFTextField
+        control={control}
+        name="phone"
+        placeholder="Phone"
+        errors={errors}
+      />
+      <RHFTextField
+        control={control}
+        name="address"
+        placeholder="Address"
+        errors={errors}
+      />
 
       <TouchableOpacity style={styles.button} onPress={handleSubmit(onSubmit)}>
-        <Text style={styles.buttonText}>Login</Text>
+        <Text style={styles.buttonText}>Register</Text>
       </TouchableOpacity>
 
-      <Text style={styles.normalText}>Create new account.</Text>
+      <Text style={styles.normalText}>Already have an account? Login</Text>
     </View>
   );
 };
@@ -115,4 +136,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Login;
+export default Register;
